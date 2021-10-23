@@ -2,6 +2,8 @@ const express = require("express");
 const connectDB = require("./config/db");
 const http = require("http");
 
+const eurekaHelper = require('./helpers/eureka-helper');
+
 //Connect Database
 connectDB();
 
@@ -10,6 +12,15 @@ const server = http.createServer(app);
 
 //Init middleware (Body Parser , now it s included with express )
 app.use(express.json({ extended: false }));
+
+const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  credentials: false, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // Define routes
 app.use("/todo", require("./routes/api/todo"));
@@ -38,5 +49,6 @@ app.use(function (req, res, next) {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+eurekaHelper.registerWithEureka('todo_microservices', PORT);
 
 module.exports = server;
