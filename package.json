@@ -1,0 +1,26 @@
+{
+  "name": "todo_microservices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ESPRIT-TWIN-MICROSERVICES-FGSC/TODO_MICROSERVICE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ESPRIT-TWIN-MICROSERVICES-FGSC/TODO_MICROSERVICE/issues"
+  },
+  "homepage": "https://github.com/ESPRIT-TWIN-MICROSERVICES-FGSC/TODO_MICROSERVICE#readme",
+  "dependencies": {
+    "config": "^3.3.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.14"
+  }
+}

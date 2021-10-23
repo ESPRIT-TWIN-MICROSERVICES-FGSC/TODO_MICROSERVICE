@@ -1,0 +1,3 @@
+{
+    "mongoURI" : "mongodb+srv://humanRessource:admin@cluster0.ytom5.mongodb.net/todo?retryWrites=true&w=majority"
+}
