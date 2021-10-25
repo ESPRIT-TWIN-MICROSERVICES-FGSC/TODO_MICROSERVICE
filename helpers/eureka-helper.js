@@ -1,54 +1,53 @@
 const request = require('request');
 const ip = require('ip');
-const config = require("config");
 
-const hostname_ = 'https://fgsc-eureka-server.herokuapp.com/';
-const eurekaService = 'https://'+(config.get("EUREKA_CLIENT")  || hostname_)+'/eureka';
+const eurekaService = `https://fgsc-eureka-server.herokuapp.com/eureka`;
 
 module.exports = {
-   registerWithEureka: (appName, port) => {
-       console.log(`Registering ${appName} with Eureka`);
-       request.post({
-           headers: {'content-type': 'application/json'},
-           url: `${eurekaService}/${appName}`,
-           body: JSON.stringify({
-               instance: {
-                   hostName: `localhost`,
-                   instanceId: `${appName}-${port}`,
-                   vipAddress: `${appName}`,
-                   app: `${appName.toUpperCase()}`,
-                   ipAddr: ip.address(),
-                   status: `UP`,
-                   port: {
-                       $: port,
-                       "@enabled": true
-                   },
-                   dataCenterInfo: {
-                       "@class": `com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo`,
-                       name: `MyOwn`
-                   }
-               }
-           })
-       },
-       (error, response, body) => {
-           if(!error) {
-               console.log(`Registered with Eureka.`);
-               setInterval(() => {
-                   request.put({
-                       headers: {'content-type': 'application/json'},
-                       url: `${eurekaService}/${appName}/${appName}-${port}`
-                   }, (error, response, body => {
-                       if (error) {
-                           console.log('Sending heartbeat to Eureka failed.');
-                       } else {
-                           console.log('Successfully sent heartbeat to Eureka.');
-                       }
-                   }));
-               }, 50 * 1000);
-      
-           } else {
-               console.log(`Not registered with eureka due to: ${error}`);
-           }
-       });
-   }
+    registerWithEureka: (appName, port) => {
+        console.log(`Registering ${appName} with Eureka`);
+        request.post({
+                headers: {'content-type': 'application/json'},
+                url: `${eurekaService}/apps/${appName}`,
+                body: JSON.stringify({
+                    instance: {
+                        hostName: `localhost`,
+                        instanceId: `${appName}-${port}`,
+                        vipAddress: `${appName}`,
+                        app: `${appName.toUpperCase()}`,
+                        ipAddr: ip.address(),
+                        status: `UP`,
+                        port: {
+                            $: port,
+                            "@enabled": true
+                        },
+                        dataCenterInfo: {
+                            "@class": `com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo`,
+                            name: `MyOwn`
+                        }
+                    }
+                })
+            },
+            (error, response, body) => {
+                if(!error) {
+                    console.log(`Registered with Eureka.`);
+                    setInterval(() => {
+                        request.put({
+                            headers: {'content-type': 'application/json'},
+                            url: `${eurekaService}/apps/${appName}/${appName}-${port}`
+                        }, (error, response, body => {
+                            if (error) {
+                                console.log('Sending heartbeat to Eureka failed.');
+                            } else {
+                                console.log('Successfully sent heartbeat to Eureka.');
+                            }
+                        }));
+                    }, 5 * 1000);
+
+                } else {
+                    console.log(`Not registered with eureka due to: ${error}`);
+                }
+            });
+
+    }
 };
