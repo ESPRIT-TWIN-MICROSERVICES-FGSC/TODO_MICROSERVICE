@@ -1,4 +1,4 @@
 {
     "mongoURI" : "mongodb+srv://humanRessource:admin@cluster0.ytom5.mongodb.net/todo?retryWrites=true&w=majority",
-    "EUREKA_CLIENT" : "https://fgsc-eureka-server.herokuapp.com/eureka"
+    "EUREKA_CLIENT" : "fgsc-eureka-server.herokuapp.com"
 }
